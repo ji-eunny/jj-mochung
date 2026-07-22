@@ -1,20 +1,22 @@
 import MobileFrame from "@/components/layout/MobileFrame";
 import Section01Cover from "@/components/sections/Section01Cover";
 import Section02Greeting from "@/components/sections/Section02Greeting";
-import Section03Date from "@/components/sections/Section03Date";
-import Section04Gallery from "@/components/sections/Section04Gallery";
+import Section03Gallery from "@/components/sections/Section03Gallery";
+import Section04Timeline from "@/components/sections/Section04Timeline";
 import Section05Map from "@/components/sections/Section05Map";
-import Section06Closing from "@/components/sections/Section06Closing";
+import Section06Heart from "@/components/sections/Section06Heart";
+import Section07Closing from "@/components/sections/Section07Closing";
 
 export default function Home() {
   return (
     <MobileFrame>
       <Section01Cover />
       <Section02Greeting />
-      <Section03Date />
-      <Section04Gallery />
+      <Section03Gallery />
+      <Section04Timeline />
       <Section05Map />
-      <Section06Closing />
+      <Section06Heart />
+      <Section07Closing />
     </MobileFrame>
   );
 }

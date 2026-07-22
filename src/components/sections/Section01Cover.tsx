@@ -11,9 +11,42 @@ export default function Section01Cover() {
         <span>BGM</span>
         <button className="ml-2">ON</button>
       </div>
+      <img
+        src="/images/star.png"
+        alt="star"
+        width={40}
+        height={40}
+        className="absolute top-70 right-10"
+        style={{ rotate: "-15deg" }}
+      />
+       <img
+        src="/images/star.png"
+        alt="star"
+        width={30}
+        height={30}
+        className="absolute bottom-20 left-15"
+        style={{ rotate: "-15deg" }}
+      />
+       <img
+        src="/images/star.png"
+        alt="star"
+        width={40}
+        height={40}
+        className="absolute bottom-30 left-5"
+        style={{ rotate: "-15deg" }}
+      />
+       <img
+        src="/images/star.png"
+        alt="star"
+        width={30}
+        height={30}
+        className="absolute top-80 right-15"
+        style={{ rotate: "-15deg" }}
+      />
+      
       <motion.div
         className="mt-75 mx-12"
-        animate={{ x: [0, -8, 8, -8, 8, 0, 0] }}
+        animate={{ rotate: [0, -5, 5, -5, 5, 0, 0] }}
         transition={{
           duration: 3.5,
           repeat: Infinity,
