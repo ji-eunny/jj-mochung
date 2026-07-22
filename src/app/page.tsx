@@ -13,8 +13,8 @@ export default function Home() {
       <Section01Cover />
       <Section02Greeting />
       <Section03Gallery />
-      <Section04Timeline />
       <Section05Map />
+      <Section04Timeline />
       <Section06Heart />
       <Section07Closing />
     </MobileFrame>
