@@ -16,7 +16,7 @@ export default function Section01Cover() {
         alt="star"
         width={40}
         height={40}
-        className="absolute top-70 right-10"
+        className="absolute top-80 right-10"
         style={{ rotate: "-15deg" }}
       />
        <img
@@ -40,12 +40,12 @@ export default function Section01Cover() {
         alt="star"
         width={30}
         height={30}
-        className="absolute top-80 right-15"
+        className="absolute top-90 right-15"
         style={{ rotate: "-15deg" }}
       />
       
       <motion.div
-        className="mt-75 mx-12"
+        className="mt-85 mx-12"
         animate={{ rotate: [0, -5, 5, -5, 5, 0, 0] }}
         transition={{
           duration: 3.5,

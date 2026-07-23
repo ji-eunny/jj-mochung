@@ -17,7 +17,7 @@ const BRIDE_ACCOUNTS = [
 export default function Section06Heart() {
   return (
     <Section pdfUrl="/pdf/back6.pdf">
-      <div className="text-center text-3xl mt-14 font-bold">마음 전하는 곳</div>
+      <div className="text-center text-3xl mt-26 font-bold">마음 전하는 곳</div>
 
       <div className="text-center mt-10 flex flex-col gap-2 text-lg">
         <p>따뜻한 축하를 보내주셔서</p>

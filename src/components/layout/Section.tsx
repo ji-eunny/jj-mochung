@@ -25,7 +25,7 @@ export default function Section({
         relative flex-shrink-0
         snap-start snap-always
         w-full
-        h-screen md:h-[950px]
+        h-[950px]
         overflow-hidden
         ${!pdfUrl ? bgClassName : ""}
       `}

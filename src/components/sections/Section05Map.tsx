@@ -6,7 +6,7 @@ export default function Section05Map() {
   return (
     <Section pdfUrl="/pdf/back5.pdf">
       <div className="text-center text-3xl mt-14 font-bold">오시는 길</div>
-      <div className="mt-77">
+      <div className="mt-90">
         <div className="ml-12 flex gap-4 align-center">
           <div className="mt-1">
             <MapPinIcon size={30} color="#000000" />
