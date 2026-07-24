@@ -41,6 +41,7 @@ function FilmFrame({ imgSrc }: { imgSrc: string }) {
         width: FRAME_W,
         height: FRAME_H,
         marginRight: -OVERLAP,
+        filter: "drop-shadow(0 4px 4px rgba(0,0,0,0.32)) drop-shadow(0 1px 2px rgba(0,0,0,0.2))",
       }}
     >
       {/* 사진 (투명 영역) */}
@@ -64,7 +65,7 @@ function FilmFrame({ imgSrc }: { imgSrc: string }) {
 
       {/* 필름 프레임 */}
       <img
-        src="/images/film_frame_single.svg"
+        src="/images/film_frame_final.svg"
         alt="film"
         style={{
           position: "relative",
@@ -110,7 +111,7 @@ export default function Section03Gallery() {
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-14 font-bold">갤러리</div>
       </FadeInUp>
-      <div className="w-full mt-80">
+      <div className="w-full mt-60">
         <FilmStrip />
       </div>
     </Section>
