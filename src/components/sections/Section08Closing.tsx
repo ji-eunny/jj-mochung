@@ -25,10 +25,9 @@ async function handleShare() {
 }
 
 /** 섹션 7: 마무리 - 엔딩 크레딧 */
-export default function Section07Closing() {
+export default function Section08Closing() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
-  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -36,12 +35,17 @@ export default function Section07Closing() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true);
+        if (entry.isIntersecting) {
+          // 진입할 때마다 처음부터 다시 재생
+          controls.set({ y: "100%" });
           controls.start({
             y: "5%",
-            transition: { duration: 10, ease: "linear" },
+            transition: { duration: 20, ease: "linear" },
           });
+        } else {
+          // 섹션 벗어나면 초기 위치로 리셋
+          controls.stop();
+          controls.set({ y: "100%" });
         }
       },
       { threshold: 0.3 }
@@ -49,7 +53,7 @@ export default function Section07Closing() {
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [controls, hasStarted]);
+  }, [controls]);
 
   return (
     <Section pdfUrl="/pdf/back7.pdf">

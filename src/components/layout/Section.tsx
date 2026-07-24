@@ -27,7 +27,7 @@ export default function Section({
         w-full
         h-[950px]
         overflow-hidden
-        ${!pdfUrl ? bgClassName : ""}
+        ${bgClassName}
       `}
     >
       {pdfUrl && <PdfPage pdfUrl={pdfUrl} bgClassName={bgClassName} />}

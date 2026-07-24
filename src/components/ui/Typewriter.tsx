@@ -1,77 +1,69 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface TypewriterProps {
   text: string;
-  /** 글자당 딜레이 (ms), 기본 80ms */
+  /** 글자당 딜레이 (ms) */
   delay?: number;
-  /** 시작 전 대기 시간 (ms), 기본 0ms */
+  /** 외부에서 시작 신호를 받는 경우 (true가 되면 startDelay 후 타이핑 시작) */
+  triggered?: boolean;
+  /** triggered 이후 대기 시간 (ms) */
   startDelay?: number;
   className?: string;
 }
 
 /**
  * 타자기 효과 컴포넌트
- * - IntersectionObserver로 화면에 진입하면 자동 시작
- * - 한 글자씩 순서대로 출력
+ * - triggered prop으로 외부에서 시작 시점 제어
  */
 export default function Typewriter({
   text,
   delay = 80,
+  triggered = false,
   startDelay = 0,
   className,
 }: TypewriterProps) {
-  const ref = useRef<HTMLSpanElement>(null);
   const [displayed, setDisplayed] = useState("");
   const [started, setStarted] = useState(false);
 
-  // 화면 진입 감지
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    // triggered 꺼지면 초기화
+    if (!triggered) {
+      setStarted(false);
+      setDisplayed("");
+      return;
+    }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStarted(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.5 }
-    );
+    const startTimeout = setTimeout(() => setStarted(true), startDelay);
+    return () => clearTimeout(startTimeout);
+  }, [triggered, startDelay]);
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  // 타자 효과
   useEffect(() => {
     if (!started) return;
 
     let i = 0;
     setDisplayed("");
 
-    const startTimeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        i++;
-        setDisplayed(text.slice(0, i));
-        if (i >= text.length) clearInterval(interval);
-      }, delay);
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(interval);
+    }, delay);
 
-      return () => clearInterval(interval);
-    }, startDelay);
-
-    return () => clearTimeout(startTimeout);
-  }, [started, text, delay, startDelay]);
+    return () => clearInterval(interval);
+  }, [started, text, delay]);
 
   return (
-    <span ref={ref} className={className}>
-      {displayed}
-      {/* 커서 깜빡임 */}
-      {displayed.length < text.length && started && (
-        <span className="animate-pulse">|</span>
-      )}
+    /* 실제 텍스트를 invisible로 렌더링해 높이 확보, 위에 타이핑 텍스트 오버레이 */
+    <span className={`relative inline-block ${className ?? ""}`}>
+      <span className="invisible whitespace-pre-wrap">{text}</span>
+      <span className="absolute left-0 top-0 whitespace-pre-wrap">
+        {displayed}
+        {started && displayed.length < text.length && (
+          <span className="animate-pulse">|</span>
+        )}
+      </span>
     </span>
   );
 }

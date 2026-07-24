@@ -3,9 +3,10 @@ import Section01Cover from "@/components/sections/Section01Cover";
 import Section02Greeting from "@/components/sections/Section02Greeting";
 import Section03Gallery from "@/components/sections/Section03Gallery";
 import Section04Timeline from "@/components/sections/Section04Timeline";
-import Section05Map from "@/components/sections/Section05Map";
-import Section06Heart from "@/components/sections/Section06Heart";
-import Section07Closing from "@/components/sections/Section07Closing";
+import Section05Calendar from "@/components/sections/Section05Calendar";
+import Section06Map from "@/components/sections/Section06Map";
+import Section07Heart from "@/components/sections/Section07Heart";
+import Section08Closing from "@/components/sections/Section08Closing";
 
 export default function Home() {
   return (
@@ -13,10 +14,11 @@ export default function Home() {
       <Section01Cover />
       <Section02Greeting />
       <Section03Gallery />
-      <Section05Map />
       <Section04Timeline />
-      <Section06Heart />
-      <Section07Closing />
+      <Section05Calendar />
+      <Section06Map />
+      <Section07Heart />
+      <Section08Closing />
     </MobileFrame>
   );
 }

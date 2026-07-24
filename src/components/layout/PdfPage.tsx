@@ -19,6 +19,7 @@ export default function PdfPage({
 }: PdfPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(950);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -35,19 +36,29 @@ export default function PdfPage({
       ref={containerRef}
       className="absolute inset-0 flex items-center justify-center overflow-hidden"
     >
-      <Document
-        file={pdfUrl}
-        loading={<div className={`h-full w-full ${bgClassName}`} />}
-        error={<div className={`h-full w-full ${bgClassName}`} />}
+      {/* PDF 렌더링 전 배경 유지 */}
+      <div className={`absolute inset-0 ${bgClassName}`} />
+
+      {/* PDF: 로드 완료 후 부드럽게 페이드인 */}
+      <div
+        className="relative transition-opacity duration-500"
+        style={{ opacity: visible ? 1 : 0 }}
       >
-        <Page
-          pageNumber={1}
-          height={height}
-          renderAnnotationLayer={false}
-          renderTextLayer={false}
-          className="!block"
-        />
-      </Document>
+        <Document
+          file={pdfUrl}
+          loading={null}
+          error={null}
+        >
+          <Page
+            pageNumber={1}
+            height={height}
+            renderAnnotationLayer={false}
+            renderTextLayer={false}
+            className="!block"
+            onRenderSuccess={() => setVisible(true)}
+          />
+        </Document>
+      </div>
     </div>
   );
 }
