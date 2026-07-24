@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Section from "@/components/layout/Section";
 import { SendHorizonal } from "lucide-react";
+import { assetPath } from "@/lib/asset";
 
 async function handleShare() {
   const shareData = {
@@ -39,7 +40,7 @@ export default function Section08Closing() {
           // 진입할 때마다 처음부터 다시 재생
           controls.set({ y: "100%" });
           controls.start({
-            y: "5%",
+            y: "10%",
             transition: { duration: 20, ease: "linear" },
           });
         } else {
@@ -116,7 +117,7 @@ export default function Section08Closing() {
           <span
             className="absolute inset-0"
             style={{
-              backgroundImage: "url('/images/tape.png')",
+              backgroundImage: `url(${assetPath("/images/tape.png")})`,
               backgroundSize: "100% 100%",
               backgroundRepeat: "no-repeat",
               opacity: 0.6,

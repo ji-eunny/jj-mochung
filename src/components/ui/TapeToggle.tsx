@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
+import { assetPath } from "@/lib/asset";
 
 interface AccountItem {
   label?: string; // "아버지" | "어머니" 등 표시용 텍스트
@@ -56,7 +57,7 @@ export default function TapeToggle({ label, accounts }: TapeToggleProps) {
         onClick={() => setIsOpen((prev) => !prev)}
         className="w-full flex items-center justify-between px-6 py-3"
         style={{
-          backgroundImage: "url('/images/tape.png')",
+          backgroundImage: `url(${assetPath("/images/tape.png")})`,
           backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
         }}

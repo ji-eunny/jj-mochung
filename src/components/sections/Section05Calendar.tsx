@@ -24,7 +24,7 @@ export default function Section05Calendar() {
   return (
     <Section pdfUrl="/pdf/back8.pdf">
       <FadeInUp delay={0.1}>
-        <div className="text-center text-3xl mt-14 font-bold">결혼식까지</div>
+        <div className="text-center text-3xl mt-14 font-bold">D-DAY</div>
       </FadeInUp>
 
       <FadeInUp delay={0.3}>
@@ -36,6 +36,9 @@ export default function Section05Calendar() {
       <FadeInUp delay={0.5}>
         <div className="text-center mt-8 text-base text-black">
           2027. 02. 13 AM 10:50
+        </div>
+        <div className="text-center mt-2 text-base text-black">
+          까사그랑데
         </div>
       </FadeInUp>
     </Section>

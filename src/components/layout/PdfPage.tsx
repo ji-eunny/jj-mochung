@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { assetPath } from "@/lib/asset";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -20,6 +21,7 @@ export default function PdfPage({
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(950);
   const [visible, setVisible] = useState(false);
+  const resolvedUrl = assetPath(pdfUrl);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -36,19 +38,13 @@ export default function PdfPage({
       ref={containerRef}
       className="absolute inset-0 flex items-center justify-center overflow-hidden"
     >
-      {/* PDF 렌더링 전 배경 유지 */}
       <div className={`absolute inset-0 ${bgClassName}`} />
 
-      {/* PDF: 로드 완료 후 부드럽게 페이드인 */}
       <div
         className="relative transition-opacity duration-500"
         style={{ opacity: visible ? 1 : 0 }}
       >
-        <Document
-          file={pdfUrl}
-          loading={null}
-          error={null}
-        >
+        <Document file={resolvedUrl} loading={null} error={null}>
           <Page
             pageNumber={1}
             height={height}

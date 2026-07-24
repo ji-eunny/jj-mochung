@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Section from "@/components/layout/Section";
 import Typewriter from "@/components/ui/Typewriter";
 import FadeInUp from "../ui/FadeInUp";
+import { assetPath } from "@/lib/asset";
 
-const D = 100;    // 글자당 ms
+const D = 70;     // 글자당 ms
 const INIT = 500; // 첫 시작 전 대기
-const GAP = 1200;  // 각 줄 사이 대기 (1초)
+const GAP = 900;  // 각 줄 사이 대기
 
 /** 이전 텍스트가 끝난 뒤 다음 시작 시점 계산 */
 function next(prevStart: number, prevText: string) {
@@ -74,7 +75,7 @@ export default function Section04Timeline() {
         <div className="relative text-center text-3xl mt-10 font-bold">
           우리의 이야기
           <img
-            src="/images/yellow_spark_lines.svg"
+            src={assetPath("/images/yellow_spark_lines.svg")}
             alt=""
             className="absolute -top-12 right-10"
             width={160}

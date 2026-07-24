@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { assetPath } from "@/lib/asset";
 
 // pdfjs worker 설정
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -51,7 +52,7 @@ export default function PdfBackground({
       {/* PDF 배경 레이어 */}
       <div className="absolute inset-0 z-0">
         <Document
-          file={pdfUrl}
+          file={assetPath(pdfUrl)}
           loading={
             <div className="flex h-full items-center justify-center bg-wedding-cream">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-wedding-rose border-t-transparent" />

@@ -1,17 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Serif_KR, Noto_Sans_KR } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const notoSerifKR = Noto_Serif_KR({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const notoSansKR = Noto_Sans_KR({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
+/** public 폰트를 빌드에 포함 → basePath 와 무관하게 동작 */
+const uhbee = localFont({
+  src: "../../public/fonts/UhBeeQUEENJ.woff",
+  variable: "--font-uhbee",
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -38,11 +33,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={`${notoSerifKR.variable} ${notoSansKR.variable} h-full antialiased`}
-    >
-      <body className="min-h-full bg-wedding-cream">{children}</body>
+    <html lang="ko" className={`${uhbee.variable} h-full antialiased`}>
+      <body className={`${uhbee.className} min-h-full bg-wedding-cream`}>
+        {children}
+      </body>
     </html>
   );
 }

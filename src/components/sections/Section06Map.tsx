@@ -1,6 +1,7 @@
 import Section from "@/components/layout/Section";
 import FadeInUp from "@/components/ui/FadeInUp";
 import { MapPinIcon, TrainIcon, CarIcon } from "@/components/ui/icons";
+import { assetPath } from "@/lib/asset";
 
 /** 섹션 6: 오시는 길 */
 export default function Section06Map() {
@@ -9,7 +10,7 @@ export default function Section06Map() {
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-14 font-bold">오시는 길</div>
         <img
-        src="/images/star.png"
+        src={assetPath("/images/star.png")}
         alt="star"
         width={30}
         height={30}
@@ -64,7 +65,7 @@ export default function Section06Map() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-8 py-4"
-            style={{ backgroundImage: "url('/images/tape.png')", backgroundSize: "100% 100%", backgroundRepeat: "no-repeat" }}
+            style={{ backgroundImage: `url(${assetPath("/images/tape.png")})`, backgroundSize: "100% 100%", backgroundRepeat: "no-repeat" }}
           >
             <MapPinIcon size={24} color="#2DB400" />
             <span>네이버 지도</span>
@@ -74,7 +75,7 @@ export default function Section06Map() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-8 py-4"
-            style={{ backgroundImage: "url('/images/tape.png')", backgroundSize: "100% 100%", backgroundRepeat: "no-repeat" }}
+            style={{ backgroundImage: `url(${assetPath("/images/tape.png")})`, backgroundSize: "100% 100%", backgroundRepeat: "no-repeat" }}
           >
             <MapPinIcon size={24} color="#FFE300" />
             <span>카카오 지도</span>
