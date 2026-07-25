@@ -57,7 +57,7 @@ export default function Section08Closing() {
   }, [controls]);
 
   return (
-    <Section pdfUrl="/pdf/back7.pdf">
+    <Section bgImage="/images/back8.jpg">
       {/* 크레딧 영역: overflow hidden으로 잘라냄 */}
       <div ref={sectionRef} className="relative h-[85%] overflow-hidden">
         <motion.div

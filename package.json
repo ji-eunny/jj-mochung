@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:gh": "GITHUB_PAGES=true next build && touch out/.nojekyll",
+    "build:gh": "next build && touch out/.nojekyll",
+    "deploy": "npm run build:gh && npx --yes gh-pages@6 -d out -b gh-pages -t -m \"deploy: GitHub Pages\"",
     "start": "next start",
     "lint": "eslint"
   },

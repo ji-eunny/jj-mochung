@@ -4,7 +4,7 @@ import FadeInUp from "@/components/ui/FadeInUp";
 /** 섹션 2: 인사말 */
 export default function Section02Greeting() {
   return (
-    <Section pdfUrl="/pdf/back2.pdf">
+    <Section bgImage="/images/back2.jpg">
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-14 font-bold">초대장</div>
       </FadeInUp>

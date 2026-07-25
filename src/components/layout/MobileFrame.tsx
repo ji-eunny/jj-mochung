@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 /**
  * 모바일 청첩장 기본 프레임
  * - 440×950 고정 캔버스를 화면 크기에 맞춰 균일하게 scale
- * - 어떤 기기(아이폰 Pro / Pro Max)·PC에서도 배경과 텍스트의
- *   상대 위치·간격이 항상 동일하게 유지됨 (letterbox 방식)
+ * - 모바일: cover (화면 꽉 채움, 양옆 회색 레터박스 제거)
+ * - PC: contain + max 1 (디자인 크기 유지, 가운데 정렬)
  */
 
-/** 디자인 기준 캔버스 크기 (이 비율/간격이 모든 화면에서 그대로 유지됨) */
 const BASE_W = 440;
 const BASE_H = 950;
 
@@ -19,14 +18,25 @@ export default function MobileFrame({
   children: React.ReactNode;
 }) {
   const [scale, setScale] = useState(1);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
     const compute = () => {
       const vw = window.innerWidth;
-      // 모바일 주소창 대응: visualViewport 우선
       const vh = window.visualViewport?.height ?? window.innerHeight;
-      // 가로/세로 모두 들어오도록 fit, 디자인 크기(1)를 넘겨 확대하지 않음
-      setScale(Math.min(vw / BASE_W, vh / BASE_H, 1));
+      const mobile = vw < 768;
+      setIsMobile(mobile);
+
+      const widthScale = vw / BASE_W;
+      const heightScale = vh / BASE_H;
+
+      if (mobile) {
+        // 화면을 꽉 채움 (양옆/위아래 빈 여백 최소화)
+        setScale(Math.max(widthScale, heightScale));
+      } else {
+        // PC: 전체가 보이도록 fit, 원본보다 크게는 안 키움
+        setScale(Math.min(widthScale, heightScale, 1));
+      }
     };
 
     compute();
@@ -39,9 +49,11 @@ export default function MobileFrame({
   }, []);
 
   return (
-    /* 화면 전체를 채우는 배경 + 캔버스 중앙 정렬 */
-    <div className="fixed inset-0 flex items-center justify-center overflow-hidden bg-neutral-300">
-      {/* 고정 크기 캔버스: layout 은 440×950, 화면에 맞춰 통째로 scale */}
+    <div
+      className={`fixed inset-0 flex items-center justify-center overflow-hidden ${
+        isMobile ? "bg-wedding-cream" : "bg-neutral-300"
+      }`}
+    >
       <div
         className="flex-shrink-0"
         style={{
@@ -51,14 +63,13 @@ export default function MobileFrame({
           transformOrigin: "center center",
         }}
       >
-        {/* 내부 스냅 스크롤 컨테이너 */}
         <div
-          className="
+          className={`
             relative h-full w-full overflow-y-scroll
             snap-y snap-mandatory
-            rounded-2xl shadow-2xl
             scrollbar-hide
-          "
+            ${isMobile ? "" : "rounded-2xl shadow-2xl"}
+          `}
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {children}

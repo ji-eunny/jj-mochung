@@ -1,20 +1,17 @@
 import type { NextConfig } from "next";
 
-/** GitHub Pages 프로젝트 사이트용 저장소 이름 */
-const REPO_NAME = "jj-mochung";
-const isGhPages = process.env.GITHUB_PAGES === "true";
-const basePath = isGhPages ? `/${REPO_NAME}` : "";
-
+/**
+ * 커스텀 도메인(jaehoon-jieun.love)은 사이트 루트에서 서빙되므로 basePath 없음.
+ * (github.io/jj-mochung 하위 경로용 basePath 는 사용하지 않음)
+ */
 const nextConfig: NextConfig = {
   output: "export",
-  basePath,
-  assetPrefix: basePath ? `${basePath}/` : undefined,
   trailingSlash: true,
   images: {
     unoptimized: true,
   },
   env: {
-    NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_BASE_PATH: "",
   },
 };
 

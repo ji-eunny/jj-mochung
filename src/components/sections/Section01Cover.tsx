@@ -146,7 +146,7 @@ export default function Section01Cover() {
   };
 
   return (
-    <Section pdfUrl="/pdf/back1.pdf">
+    <Section bgImage="/images/back1.jpg" priority>
       {/* 숨김 YouTube 플레이어 호스트 */}
       <div
         className="pointer-events-none absolute h-px w-px overflow-hidden opacity-0"
@@ -155,22 +155,22 @@ export default function Section01Cover() {
         <div id={playerId} />
       </div>
 
-      <div className="mr-5 mt-5 flex items-center justify-end gap-2">
-        <span className="text-2xl">BGM</span>
+      <div className="flex w-full justify-end pr-2 pt-2">
         <button
           type="button"
           onClick={toggleBgm}
           aria-label={isPlaying ? "배경음악 끄기" : "배경음악 켜기"}
-          className="inline-flex items-center justify-center"
+          className="flex items-center gap-1"
         >
+          <span className="text-2xl">BGM</span>
           <img
             src={
               isPlaying
-                ? assetPath("/images/speaker-simple-high.svg")
-                : assetPath("/images/speaker-simple-x.svg")
+                ? assetPath("/images/speaker-on.svg")
+                : assetPath("/images/speaker-off.svg")
             }
             alt=""
-            className="h-8 w-8"
+            className="h-12 w-12"
           />
         </button>
       </div>
@@ -210,7 +210,7 @@ export default function Section01Cover() {
 
       <FadeInUp delay={0.2}>
         <motion.div
-          className="mt-80 mx-12"
+          className="mt-86 mx-12"
           animate={{ rotate: [0, -5, 5, -5, 5, 0, 0] }}
           transition={{
             duration: 3.5,
@@ -219,7 +219,7 @@ export default function Section01Cover() {
             times: [0, 0.15, 0.3, 0.45, 0.6, 0.72, 1],
           }}
         >
-          <img src={assetPath("/images/main.png")} alt="main" className="object-cover" />
+          <img src={assetPath("/images/main.jpg")} alt="main" className="object-cover" />
         </motion.div>
       </FadeInUp>
       <FadeInUp delay={0.4}>

@@ -22,7 +22,7 @@ const CountdownTimer = dynamic(() => import("@/components/ui/CountdownTimer"), {
 /** 섹션 5: 결혼식까지 카운트다운 */
 export default function Section05Calendar() {
   return (
-    <Section pdfUrl="/pdf/back8.pdf">
+    <Section bgImage="/images/back5.jpg">
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-14 font-bold">D-DAY</div>
       </FadeInUp>

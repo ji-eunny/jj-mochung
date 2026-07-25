@@ -6,7 +6,7 @@ import { assetPath } from "@/lib/asset";
 /** 섹션 6: 오시는 길 */
 export default function Section06Map() {
   return (
-    <Section pdfUrl="/pdf/back5.pdf">
+    <Section bgImage="/images/back6.jpg">
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-14 font-bold">오시는 길</div>
         <img

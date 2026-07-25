@@ -6,7 +6,8 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { assetPath } from "@/lib/asset";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// CDN 대신 같은 출처 worker (카카오/인앱 브라우저 차단 방지)
+pdfjs.GlobalWorkerOptions.workerSrc = assetPath("/pdf.worker.min.mjs");
 
 interface PdfPageProps {
   pdfUrl: string;
@@ -21,7 +22,12 @@ export default function PdfPage({
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(950);
   const [visible, setVisible] = useState(false);
+  const [dpr, setDpr] = useState(2);
   const resolvedUrl = assetPath(pdfUrl);
+
+  useEffect(() => {
+    setDpr(Math.min(window.devicePixelRatio || 2, 3));
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -48,6 +54,7 @@ export default function PdfPage({
           <Page
             pageNumber={1}
             height={height}
+            devicePixelRatio={dpr}
             renderAnnotationLayer={false}
             renderTextLayer={false}
             className="!block"

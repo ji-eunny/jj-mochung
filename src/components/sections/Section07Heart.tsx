@@ -17,7 +17,7 @@ const BRIDE_ACCOUNTS = [
 /** 섹션 7: 마음 전하는 곳 */
 export default function Section07Heart() {
   return (
-    <Section pdfUrl="/pdf/back6.pdf">
+    <Section bgImage="/images/back7.jpg">
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-26 font-bold">마음 전하는 곳</div>
       </FadeInUp>

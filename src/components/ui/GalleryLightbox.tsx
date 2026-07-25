@@ -27,24 +27,43 @@ export default function GalleryLightbox({
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [mounted, setMounted] = useState(false);
+  const didCenterOnOpen = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // 현재 썸네일을 가운데로 스크롤
+  // 마운트/인덱스 변경 시 선택 썸네일을 가운데로
   useEffect(() => {
-    const strip = thumbStripRef.current;
-    const thumb = thumbRefs.current[index];
-    if (!strip || !thumb) return;
+    if (!mounted) return;
 
-    const stripCenter = strip.clientWidth / 2;
-    const thumbCenter = thumb.offsetLeft + thumb.offsetWidth / 2;
-    strip.scrollTo({
-      left: thumbCenter - stripCenter,
-      behavior: "smooth",
+    const centerThumb = (smooth: boolean) => {
+      const strip = thumbStripRef.current;
+      const thumb = thumbRefs.current[index];
+      if (!strip || !thumb) return;
+
+      const stripRect = strip.getBoundingClientRect();
+      const thumbRect = thumb.getBoundingClientRect();
+      const delta =
+        thumbRect.left +
+        thumbRect.width / 2 -
+        (stripRect.left + stripRect.width / 2);
+
+      strip.scrollTo({
+        left: strip.scrollLeft + delta,
+        behavior: smooth ? "smooth" : "auto",
+      });
+    };
+
+    // 팝업 직후: 레이아웃 안정화 뒤 즉시 중앙 정렬
+    // 이후 화살표/썸네일 이동: 스무스 스크롤
+    const smooth = didCenterOnOpen.current;
+    const id = requestAnimationFrame(() => {
+      centerThumb(smooth);
+      didCenterOnOpen.current = true;
     });
-  }, [index]);
+    return () => cancelAnimationFrame(id);
+  }, [mounted, index]);
 
   // 배경 스크롤 잠금 + ESC / 키보드 화살표
   useEffect(() => {
@@ -196,12 +215,14 @@ export default function GalleryLightbox({
                     outlineOffset: 1,
                   }}
                 >
-                  <img
-                    src={src}
-                    alt={`thumbnail ${i + 1}`}
-                    className="h-full w-full object-cover"
-                    draggable={false}
-                  />
+                <img
+                  src={src}
+                  alt={`thumbnail ${i + 1}`}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                />
                 </button>
               );
             })}

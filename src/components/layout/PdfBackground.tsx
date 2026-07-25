@@ -6,8 +6,8 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { assetPath } from "@/lib/asset";
 
-// pdfjs worker 설정
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// CDN 대신 같은 출처 worker (카카오/인앱 브라우저 차단 방지)
+pdfjs.GlobalWorkerOptions.workerSrc = assetPath("/pdf.worker.min.mjs");
 
 interface PdfBackgroundProps {
   /** public 폴더 기준 PDF 경로 (예: "/pdf/invitation.pdf") */

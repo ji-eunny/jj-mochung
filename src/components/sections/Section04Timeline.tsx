@@ -69,7 +69,7 @@ export default function Section04Timeline() {
   );
 
   return (
-    <Section pdfUrl="/pdf/back4.pdf">
+    <Section bgImage="/images/back4.jpg">
       <div ref={sectionRef} className="h-full">
       <FadeInUp delay={0.1}>
         <div className="relative text-center text-3xl mt-10 font-bold">

@@ -38,15 +38,15 @@ const IMAGES = [
   "/images/img3.jpg",
   "/images/img4.jpg",
   "/images/img5.jpg",
-  "/images/img6.jpeg",
-  "/images/img7.jpeg",
-  "/images/img8.jpeg",
-  "/images/img9.jpeg",
-  "/images/img10.jpeg",
-  "/images/img11.jpeg",
-  "/images/img12.jpeg",
-  "/images/img13.jpeg",
-  "/images/img14.jpeg",
+  "/images/img6.jpg",
+  "/images/img7.jpg",
+  "/images/img8.jpg",
+  "/images/img9.jpg",
+  "/images/img10.jpg",
+  "/images/img11.jpg",
+  "/images/img12.jpg",
+  "/images/img13.jpg",
+  "/images/img14.jpg",
 ].map(assetPath);
 
 /** 한 세트 길이 (무한 루프 단위) */
@@ -90,6 +90,8 @@ function FilmFrame({
         <img
           src={imgSrc}
           alt="gallery"
+          loading="lazy"
+          decoding="async"
           style={{
             width: "100%",
             height: "100%",
@@ -193,19 +195,13 @@ export default function Section03Gallery() {
   };
 
   return (
-    <Section pdfUrl="/pdf/back2.pdf">
+    <Section bgImage="/images/back3.jpg">
       <FadeInUp delay={0.1}>
         <div className="text-center text-3xl mt-14 font-bold">갤러리</div>
       </FadeInUp>
       <div className="w-full mt-60 relative">
         <FilmStrip onSelect={openAt} />
-        <img
-          src={assetPath("/images/handdrawn_heart_arrow_v2.svg")}
-          alt="화살표"
-          className="absolute -bottom-8 right-60"
-          width={120}
-          height={120}
-        />
+       
         <p className="text-right mr-5">사진을 클릭하거나, 드래그 해 보세요.</p>
       </div>
 
@@ -220,6 +216,7 @@ export default function Section03Gallery() {
           />
         )}
       </AnimatePresence>
+     
     </Section>
   );
 }

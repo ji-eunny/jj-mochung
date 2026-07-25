@@ -1,21 +1,66 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-// react-pdf는 브라우저 전용 API(DOMMatrix)를 사용 → SSR 완전 비활성화
-const PdfPage = dynamic(() => import("./PdfPage"), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-wedding-cream" />,
-});
+import { useEffect, useRef, useState } from "react";
+import { assetPath } from "@/lib/asset";
 
 interface SectionProps {
-  pdfUrl?: string;
+  /** public 기준 배경 이미지 경로 (예: "/images/back1.jpg") */
+  bgImage?: string;
+  /** 첫 화면 등 즉시 로드가 필요할 때 */
+  priority?: boolean;
   bgClassName?: string;
   children?: React.ReactNode;
 }
 
+/** 뷰포트 근처일 때만 배경 이미지 로드 */
+function LazyBackground({
+  src,
+  priority = false,
+}: {
+  src: string;
+  priority?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(priority);
+
+  useEffect(() => {
+    if (priority || shouldLoad) return;
+    const el = ref.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [priority, shouldLoad]);
+
+  return (
+    <div ref={ref} className="absolute inset-0 overflow-hidden">
+      {shouldLoad && (
+        <img
+          src={assetPath(src)}
+          alt=""
+          className="h-full w-full object-cover"
+          draggable={false}
+          // 첫 섹션만 즉시, 나머지는 브라우저 lazy
+          loading={priority ? "eager" : "lazy"}
+          decoding="async"
+        />
+      )}
+    </div>
+  );
+}
+
 export default function Section({
-  pdfUrl,
+  bgImage,
+  priority = false,
   bgClassName = "bg-wedding-cream",
   children,
 }: SectionProps) {
@@ -30,7 +75,7 @@ export default function Section({
         ${bgClassName}
       `}
     >
-      {pdfUrl && <PdfPage pdfUrl={pdfUrl} bgClassName={bgClassName} />}
+      {bgImage && <LazyBackground src={bgImage} priority={priority} />}
 
       <div className="relative z-10 h-full w-full">{children}</div>
     </div>
