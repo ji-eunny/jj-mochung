@@ -24,11 +24,11 @@ export default function Section05Calendar() {
   return (
     <Section bgImage="/images/back5.jpg">
       <FadeInUp delay={0.1}>
-        <div className="text-center text-3xl mt-14 font-bold">D-DAY</div>
+        <div className="text-center text-3xl mt-24 font-bold">결혼식까지</div>
       </FadeInUp>
 
       <FadeInUp delay={0.3}>
-        <div className="mt-153">
+        <div className="mt-146">
           <CountdownTimer />
         </div>
       </FadeInUp>

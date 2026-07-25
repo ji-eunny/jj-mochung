@@ -18,8 +18,8 @@ import { assetPath } from "@/lib/asset";
  * - 사진 영역: x=78 y=114 w=1044 h=972 rx=18
  */
 const VB = 1200;
-const FRAME_W = 340;
-const FRAME_H = 340; // 정사각 SVG
+const FRAME_W = 480;
+const FRAME_H = 480;
 
 const SIDE_PAD = (62 / VB) * FRAME_W;
 const CORNER_R = (18 / VB) * FRAME_W;
@@ -52,7 +52,7 @@ const IMAGES = [
 /** 한 세트 길이 (무한 루프 단위) */
 const LOOP_W = FRAME_STEP * IMAGES.length;
 /** 자동 스크롤: LOOP_W 를 40초에 한 바퀴 */
-const AUTO_SPEED = LOOP_W / 40000; // px / ms
+const AUTO_SPEED = LOOP_W / 55000; // px / ms (클수록 느림)
 
 /** 필름 한 칸 + 사진 */
 function FilmFrame({
@@ -197,9 +197,9 @@ export default function Section03Gallery() {
   return (
     <Section bgImage="/images/back3.jpg">
       <FadeInUp delay={0.1}>
-        <div className="text-center text-3xl mt-14 font-bold">갤러리</div>
+        <div className="text-center text-3xl mt-24 font-bold">사진첩</div>
       </FadeInUp>
-      <div className="w-full mt-60 relative">
+      <div className="w-full mt-24 relative">
         <FilmStrip onSelect={openAt} />
        
         <p className="text-right mr-5">사진을 클릭하거나, 드래그 해 보세요.</p>
