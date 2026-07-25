@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 
 /**
  * 모바일 청첩장 기본 프레임
- * - 440×950 고정 캔버스를 화면 크기에 맞춰 균일하게 scale
- * - 모바일: cover (화면 꽉 채움, 양옆 회색 레터박스 제거)
- * - PC: contain + max 1 (디자인 크기 유지, 가운데 정렬)
+ * - 440×950 고정 캔버스를 화면 크기에 맞춰 균일하게 scale (contain)
+ * - 스냅 스크롤 없이 일반 세로 스크롤
  */
 
 const BASE_W = 440;
@@ -27,16 +26,9 @@ export default function MobileFrame({
       const mobile = vw < 768;
       setIsMobile(mobile);
 
-      const widthScale = vw / BASE_W;
-      const heightScale = vh / BASE_H;
-
-      if (mobile) {
-        // 화면을 꽉 채움 (양옆/위아래 빈 여백 최소화)
-        setScale(Math.max(widthScale, heightScale));
-      } else {
-        // PC: 전체가 보이도록 fit, 원본보다 크게는 안 키움
-        setScale(Math.min(widthScale, heightScale, 1));
-      }
+      // 전체가 잘리지 않도록 fit (확대되어 잘리는 cover 방식 사용 안 함)
+      const fit = Math.min(vw / BASE_W, vh / BASE_H);
+      setScale(mobile ? fit : Math.min(fit, 1));
     };
 
     compute();
@@ -65,11 +57,11 @@ export default function MobileFrame({
       >
         <div
           className={`
-            relative h-full w-full overflow-y-scroll
-            snap-y snap-mandatory
+            relative h-full w-full overflow-y-auto
             scrollbar-hide
             ${isMobile ? "" : "rounded-2xl shadow-2xl"}
           `}
+          data-scroll-root
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {children}

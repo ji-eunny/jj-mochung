@@ -68,7 +68,6 @@ export default function Section({
     <div
       className={`
         relative flex-shrink-0
-        snap-start snap-always
         w-full
         h-[950px]
         overflow-hidden

@@ -68,7 +68,7 @@ export default function GalleryLightbox({
   // 배경 스크롤 잠금 + ESC / 키보드 화살표
   useEffect(() => {
     const scrollEl = document.querySelector(
-      ".overflow-y-scroll"
+      "[data-scroll-root]"
     ) as HTMLElement | null;
     const prevOverflow = scrollEl?.style.overflowY;
     if (scrollEl) scrollEl.style.overflowY = "hidden";
