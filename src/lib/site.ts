@@ -3,7 +3,7 @@ export const SITE = {
   /** 사이트 주소 (og:url, 절대 경로 이미지용) */
   url: "https://jaehoon-jieun.love",
   /** 브라우저 탭·공유 제목 */
-  title: "장재훈 ♥ 김지은 결혼합니다",
+  title: "재훈 ♥ 지은 결혼합니다",
   /** 공유 시 보이는 설명 문구 */
   description: "2027. 02. 13 AM 10:50 · 까사그랑데",
   /**
