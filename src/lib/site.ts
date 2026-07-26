@@ -8,7 +8,7 @@ export const SITE = {
   description: "2027. 02. 13 AM 10:50 · 까사그랑데",
   /**
    * 공유 미리보기 이미지 (public 기준 경로)
-   * - 01.jpg 상단 위주로 자른 카톡용 가로형 (1200×630)
+   * - 06.jpg 기준 카톡용 가로형 (1200×630)
    */
   ogImage: "/images/og.jpg",
 } as const;
