@@ -5,11 +5,12 @@ import { motion, useAnimation } from "framer-motion";
 import Section from "@/components/layout/Section";
 import { SendHorizonal } from "lucide-react";
 import { assetPath } from "@/lib/asset";
+import { SITE } from "@/lib/site";
 
 async function handleShare() {
   const shareData = {
-    title: "장재훈 ♥ 김지은 결혼합니다",
-    text: "2027년 2월 13일 오전 10시 50분\n까사그랑데 서울 광진구 능동로 87",
+    title: SITE.title,
+    text: SITE.description,
     url: window.location.href,
   };
 

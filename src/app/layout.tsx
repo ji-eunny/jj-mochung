@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import BackgroundPreloader from "@/components/layout/BackgroundPreloader";
 import InteractionGuard from "@/components/layout/InteractionGuard";
+import { SITE } from "@/lib/site";
 import "./globals.css";
 
 /** public 폰트를 빌드에 포함 → basePath 와 무관하게 동작 */
@@ -21,12 +23,30 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "모바일 청첩장",
-  description: "소중한 분들을 결혼식에 초대합니다.",
+  metadataBase: new URL(SITE.url),
+  title: SITE.title,
+  description: SITE.description,
   openGraph: {
-    title: "모바일 청첩장",
-    description: "소중한 분들을 결혼식에 초대합니다.",
+    title: SITE.title,
+    description: SITE.description,
+    url: SITE.url,
+    siteName: SITE.title,
     type: "website",
+    locale: "ko_KR",
+    images: [
+      {
+        url: SITE.ogImage,
+        width: 1200,
+        height: 1200,
+        alt: SITE.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.title,
+    description: SITE.description,
+    images: [SITE.ogImage],
   },
 };
 
@@ -38,6 +58,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${uhbee.variable} h-full antialiased`}>
       <body className={`${uhbee.className} min-h-full bg-white`}>
+        <BackgroundPreloader />
         <InteractionGuard />
         {children}
       </body>

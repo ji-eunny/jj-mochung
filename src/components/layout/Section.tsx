@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { assetPath } from "@/lib/asset";
 
 interface SectionProps {
   /** public 기준 배경 이미지 경로 (예: "/images/back1.jpg") */
   bgImage?: string;
-  /** 첫 화면 등 즉시 로드가 필요할 때 */
+  /** @deprecated 모든 배경을 첫 진입 시 미리 로드하므로 무시됨 */
   priority?: boolean;
   /** 섹션 하단 구분선 (기본: 표시, 마지막 섹션만 false) */
   showDivider?: boolean;
@@ -14,55 +13,24 @@ interface SectionProps {
   children?: React.ReactNode;
 }
 
-/** 뷰포트 근처일 때만 배경 이미지 로드 */
-function LazyBackground({
-  src,
-  priority = false,
-}: {
-  src: string;
-  priority?: boolean;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shouldLoad, setShouldLoad] = useState(priority);
-
-  useEffect(() => {
-    if (priority || shouldLoad) return;
-    const el = ref.current;
-    if (!el) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoad(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "200px 0px" }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [priority, shouldLoad]);
-
+function SectionBackground({ src }: { src: string }) {
   return (
-    <div ref={ref} className="absolute inset-0 overflow-hidden">
-      {shouldLoad && (
-        <img
-          src={assetPath(src)}
-          alt=""
-          className="h-full w-full object-cover"
-          draggable={false}
-          // 첫 섹션만 즉시, 나머지는 브라우저 lazy
-          loading={priority ? "eager" : "lazy"}
-          decoding="async"
-        />
-      )}
+    <div className="absolute inset-0 overflow-hidden">
+      <img
+        src={assetPath(src)}
+        alt=""
+        className="h-full w-full object-cover"
+        draggable={false}
+        loading="eager"
+        decoding="async"
+        fetchPriority="low"
+      />
     </div>
   );
 }
 
 export default function Section({
   bgImage,
-  priority = false,
   showDivider = true,
   bgClassName = "bg-wedding-cream",
   children,
@@ -78,7 +46,7 @@ export default function Section({
         ${bgClassName}
       `}
     >
-      {bgImage && <LazyBackground src={bgImage} priority={priority} />}
+      {bgImage && <SectionBackground src={bgImage} />}
 
       <div className="relative z-10 h-full w-full">{children}</div>
 
