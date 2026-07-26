@@ -18,7 +18,7 @@ export default function Section06Map() {
         style={{ rotate: "-15deg" }}
       />
       </FadeInUp>
-      <div className="mt-78">
+      <div className="mt-88">
         <FadeInUp delay={0.2}>
           <div className="ml-12 flex gap-4 align-center">
             <div className="mt-1"><MapPinIcon size={30} color="#000000" /></div>

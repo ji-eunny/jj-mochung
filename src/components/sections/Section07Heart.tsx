@@ -37,7 +37,7 @@ export default function Section07Heart() {
       </FadeInUp>
 
       <FadeInUp delay={0.7}>
-        <div className="mt-14 flex flex-col gap-3 px-6">
+        <div className="mt-20 flex flex-col gap-3 px-6">
           <TapeToggle label="신랑 측" accounts={GROOM_ACCOUNTS} />
           <TapeToggle label="신부 측" accounts={BRIDE_ACCOUNTS} />
         </div>

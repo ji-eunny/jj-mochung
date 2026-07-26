@@ -53,9 +53,7 @@ export default function MobileFrame({
 
   return (
     <div
-      className={`fixed inset-x-0 flex items-center justify-center overflow-hidden ${
-        isPhone ? "bg-wedding-cream" : "bg-neutral-300"
-      }`}
+      className="fixed inset-x-0 flex items-center justify-center overflow-hidden bg-white"
       style={{
         top: offsetTop,
         height: viewportH > 0 ? viewportH : "100dvh",

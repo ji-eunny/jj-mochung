@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${uhbee.variable} h-full antialiased`}>
-      <body className={`${uhbee.className} min-h-full bg-wedding-cream`}>
+      <body className={`${uhbee.className} min-h-full bg-white`}>
         <InteractionGuard />
         {children}
       </body>

@@ -13,10 +13,10 @@ export default function Home() {
     <MobileFrame>
       <Section01Cover />
       <Section02Greeting />
-      <Section03Gallery />
-      <Section04Timeline />
       <Section05Calendar />
       <Section06Map />
+      <Section03Gallery />
+      <Section04Timeline />
       <Section07Heart />
       <Section08Closing />
     </MobileFrame>
