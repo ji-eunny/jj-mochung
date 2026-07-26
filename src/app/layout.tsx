@@ -37,7 +37,7 @@ export const metadata: Metadata = {
       {
         url: SITE.ogImage,
         width: 1200,
-        height: 1200,
+        height: 630,
         alt: SITE.title,
       },
     ],
