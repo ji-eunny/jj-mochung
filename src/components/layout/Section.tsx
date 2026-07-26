@@ -82,10 +82,10 @@ export default function Section({
 
       <div className="relative z-10 h-full w-full">{children}</div>
 
-      {/* 배경 위에 얹는 구분선 — 섹션 맨 아래 끝선 */}
+      {/* 배경 위에 얹는 구분선 — 섹션 바닥 경계에 맞춤 */}
       {showDivider && (
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center leading-none"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex translate-y-[3px] justify-center leading-none"
           aria-hidden
         >
           <img

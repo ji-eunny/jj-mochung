@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
  * 모바일 청첩장 프레임
  * - 디자인 캔버스: 440×950 고정
  * - contain scale 로 한 섹션이 화면에 딱 맞게 (잘림/과확대 없음)
- * - 폰: 가로 여백 최소화, 큰 화면: 양쪽 여백 + 카드 느낌
+ * - 큰 화면: 양쪽 흰 여백 (radius 없음)
  * - 카톡 인앱: visualViewport 반영
  */
 
@@ -21,7 +21,6 @@ export default function MobileFrame({
   const [scale, setScale] = useState(1);
   const [offsetTop, setOffsetTop] = useState(0);
   const [viewportH, setViewportH] = useState(0);
-  const [isPhone, setIsPhone] = useState(true);
 
   useEffect(() => {
     const compute = () => {
@@ -34,7 +33,6 @@ export default function MobileFrame({
       const fit = Math.min(vw / BASE_W, vh / BASE_H);
       const phone = vw <= BASE_W;
 
-      setIsPhone(phone);
       setScale(phone ? fit : Math.min(fit, 1));
       setOffsetTop(top);
       setViewportH(vh);
@@ -70,11 +68,7 @@ export default function MobileFrame({
       >
         <div
           data-scroll-root
-          className={`
-            relative h-full w-full overflow-y-auto overflow-x-hidden
-            overscroll-y-contain scrollbar-hide
-            ${isPhone ? "" : "rounded-2xl shadow-2xl"}
-          `}
+          className="relative h-full w-full overflow-y-auto overflow-x-hidden overscroll-y-contain scrollbar-hide"
           style={{
             ["--frame-h" as string]: `${BASE_H}px`,
             scrollbarWidth: "none",
