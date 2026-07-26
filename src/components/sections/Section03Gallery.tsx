@@ -33,26 +33,16 @@ const IMG_H = (972 / VB) * FRAME_H;
 const IMG_RADIUS = (18 / VB) * FRAME_H;
 
 const IMAGES = [
-  "/images/img1.jpg",
-  "/images/img2.jpg",
-  "/images/img3.jpg",
-  "/images/img4.jpg",
-  "/images/img5.jpg",
-  "/images/img6.jpg",
-  "/images/img7.jpg",
-  "/images/img8.jpg",
-  "/images/img9.jpg",
-  "/images/img10.jpg",
-  "/images/img11.jpg",
-  "/images/img12.jpg",
-  "/images/img13.jpg",
-  "/images/img14.jpg",
+  ...Array.from({ length: 25 }, (_, i) =>
+    `/images/${String(i + 1).padStart(2, "0")}.jpg`,
+  ),
+  ...Array.from({ length: 14 }, (_, i) => `/images/img${i + 1}.jpg`),
 ].map(assetPath);
 
 /** 한 세트 길이 (무한 루프 단위) */
 const LOOP_W = FRAME_STEP * IMAGES.length;
-/** 자동 스크롤: LOOP_W 를 40초에 한 바퀴 */
-const AUTO_SPEED = LOOP_W / 55000; // px / ms (클수록 느림)
+/** 자동 스크롤: LOOP_W 를 140초에 한 바퀴 */
+const AUTO_SPEED = LOOP_W / 140000; // px / ms (분모 클수록 느림)
 
 /** 필름 한 칸 + 사진 */
 function FilmFrame({

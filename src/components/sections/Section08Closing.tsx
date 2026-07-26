@@ -57,7 +57,7 @@ export default function Section08Closing() {
   }, [controls]);
 
   return (
-    <Section bgImage="/images/back8.jpg">
+    <Section bgImage="/images/back8.jpg" showDivider={false}>
       {/* 크레딧 영역: overflow hidden으로 잘라냄 */}
       <div ref={sectionRef} className="relative h-[85%] overflow-hidden">
         <motion.div

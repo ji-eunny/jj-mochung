@@ -210,7 +210,7 @@ export default function Section01Cover() {
 
       <FadeInUp delay={0.2}>
         <motion.div
-          className="mt-86 mx-12"
+          className="mt-95 mx-12"
           animate={{ rotate: [0, -5, 5, -5, 5, 0, 0] }}
           transition={{
             duration: 3.5,
@@ -219,11 +219,11 @@ export default function Section01Cover() {
             times: [0, 0.15, 0.3, 0.45, 0.6, 0.72, 1],
           }}
         >
-          <img src={assetPath("/images/main.jpg")} alt="main" className="object-cover" />
+          <img src={assetPath("/images/main.webp")} alt="main" className="w-full h-auto" />
         </motion.div>
       </FadeInUp>
       <FadeInUp delay={0.4}>
-        <div className="text-center mt-5 text-xl font-bold">
+        <div className="text-center mt-12 text-xl font-bold">
           <p>2027. 02. 13 AM 10:50</p>
           <p>까사그랑데</p>
         </div>

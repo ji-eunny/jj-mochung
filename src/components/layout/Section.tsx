@@ -8,6 +8,8 @@ interface SectionProps {
   bgImage?: string;
   /** 첫 화면 등 즉시 로드가 필요할 때 */
   priority?: boolean;
+  /** 섹션 하단 구분선 (기본: 표시, 마지막 섹션만 false) */
+  showDivider?: boolean;
   bgClassName?: string;
   children?: React.ReactNode;
 }
@@ -61,6 +63,7 @@ function LazyBackground({
 export default function Section({
   bgImage,
   priority = false,
+  showDivider = true,
   bgClassName = "bg-wedding-cream",
   children,
 }: SectionProps) {
@@ -69,7 +72,8 @@ export default function Section({
       className={`
         relative flex-shrink-0
         w-full
-        h-[950px]
+        h-[var(--frame-h,100dvh)]
+        min-h-[var(--frame-h,100dvh)]
         overflow-hidden
         ${bgClassName}
       `}
@@ -77,6 +81,21 @@ export default function Section({
       {bgImage && <LazyBackground src={bgImage} priority={priority} />}
 
       <div className="relative z-10 h-full w-full">{children}</div>
+
+      {/* 배경 위에 얹는 구분선 — 섹션 맨 아래 끝선 */}
+      {showDivider && (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center leading-none"
+          aria-hidden
+        >
+          <img
+            src={assetPath("/images/black_crayon_divider.svg")}
+            alt=""
+            className="block w-[72%] select-none"
+            draggable={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import InteractionGuard from "@/components/layout/InteractionGuard";
 import "./globals.css";
 
 /** public 폰트를 빌드에 포함 → basePath 와 무관하게 동작 */
@@ -12,8 +13,10 @@ const uhbee = localFont({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  minimumScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: "cover",
   themeColor: "#fdf6f0",
 };
 
@@ -35,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${uhbee.variable} h-full antialiased`}>
       <body className={`${uhbee.className} min-h-full bg-wedding-cream`}>
+        <InteractionGuard />
         {children}
       </body>
     </html>

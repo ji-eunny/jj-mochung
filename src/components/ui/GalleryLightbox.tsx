@@ -153,6 +153,14 @@ export default function GalleryLightbox({
               />
             </AnimatePresence>
 
+            {/* 장수 — 사진 오른쪽 아래, X와 같은 스타일 */}
+            <div
+              aria-live="polite"
+              className="absolute bottom-2 right-2 z-20 flex h-8 min-w-8 items-center justify-center rounded-full bg-black/55 px-2.5 text-[11px] font-medium tabular-nums tracking-wide text-white"
+            >
+              {index + 1} / {images.length}
+            </div>
+
             {/* X — 사진 맨 위 오른쪽 */}
             <button
               type="button"

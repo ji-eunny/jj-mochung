@@ -28,7 +28,7 @@ export default function Section05Calendar() {
       </FadeInUp>
 
       <FadeInUp delay={0.3}>
-        <div className="mt-146">
+        <div className="mt-134">
           <CountdownTimer />
         </div>
       </FadeInUp>
