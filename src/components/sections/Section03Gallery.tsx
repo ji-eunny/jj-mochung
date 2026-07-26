@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -11,6 +11,7 @@ import Section from "@/components/layout/Section";
 import FadeInUp from "../ui/FadeInUp";
 import GalleryLightbox from "../ui/GalleryLightbox";
 import { assetPath } from "@/lib/asset";
+import { GALLERY_ITEMS, galleryPosition, type GalleryItem } from "@/lib/gallery";
 
 /**
  * film_frame_single.svg viewBox: 0 0 1200 1200
@@ -32,25 +33,24 @@ const IMG_W = (1044 / VB) * FRAME_W;
 const IMG_H = (972 / VB) * FRAME_H;
 const IMG_RADIUS = (18 / VB) * FRAME_H;
 
-const IMAGES = [
-  ...Array.from({ length: 25 }, (_, i) =>
-    `/images/${String(i + 1).padStart(2, "0")}.jpg`,
-  ),
-  ...Array.from({ length: 14 }, (_, i) => `/images/img${i + 1}.jpg`),
-].map(assetPath);
-
 /** 한 세트 길이 (무한 루프 단위) */
-const LOOP_W = FRAME_STEP * IMAGES.length;
+const LOOP_W = FRAME_STEP * GALLERY_ITEMS.length;
 /** 자동 스크롤: LOOP_W 를 140초에 한 바퀴 */
-const AUTO_SPEED = LOOP_W / 140000; // px / ms (분모 클수록 느림)
+const AUTO_SPEED = LOOP_W / 140000; // px / ms
+/** 탭 복귀 등으로 delta가 커져도 한 프레임 점프 방지 */
+const MAX_DELTA = 32;
+
+const FRAME_SVG = assetPath("/images/film_frame_final.svg");
 
 /** 필름 한 칸 + 사진 */
 function FilmFrame({
-  imgSrc,
+  item,
   onClick,
+  eager,
 }: {
-  imgSrc: string;
+  item: GalleryItem;
   onClick: () => void;
+  eager?: boolean;
 }) {
   return (
     <button
@@ -61,8 +61,7 @@ function FilmFrame({
         width: FRAME_W,
         height: FRAME_H,
         marginRight: -OVERLAP,
-        filter:
-          "drop-shadow(0 4px 4px rgba(0,0,0,0.32)) drop-shadow(0 1px 2px rgba(0,0,0,0.2))",
+        contain: "layout paint style",
       }}
       aria-label="사진 크게 보기"
     >
@@ -78,25 +77,27 @@ function FilmFrame({
         }}
       >
         <img
-          src={imgSrc}
-          alt="gallery"
-          loading="lazy"
+          src={item.src}
+          alt=""
+          loading={eager ? "eager" : "lazy"}
           decoding="async"
+          draggable={false}
           style={{
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            objectPosition: galleryPosition(item),
             display: "block",
             pointerEvents: "none",
           }}
-          draggable={false}
         />
       </div>
 
       <img
-        src={assetPath("/images/film_frame_final.svg")}
+        src={FRAME_SVG}
         alt=""
         aria-hidden
+        draggable={false}
         style={{
           position: "relative",
           width: FRAME_W,
@@ -105,19 +106,33 @@ function FilmFrame({
           objectFit: "fill",
           pointerEvents: "none",
         }}
-        draggable={false}
       />
     </button>
   );
 }
 
-/** 자동 스크롤 + 손으로 드래그 */
+/** 자동 스크롤 + 손으로 드래그 (GPU 합성 최적화) */
 function FilmStrip({ onSelect }: { onSelect: (index: number) => void }) {
   // 3세트 → 양방향 드래그해도 끊김 없음 (가운데 세트에서 시작)
-  const frames = [...IMAGES, ...IMAGES, ...IMAGES];
+  const frames = [...GALLERY_ITEMS, ...GALLERY_ITEMS, ...GALLERY_ITEMS];
   const x = useMotionValue(-LOOP_W);
   const dragging = useRef(false);
   const moved = useRef(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [isActive, setIsActive] = useState(true);
+
+  // 화면에 보일 때만 애니 → 백그라운드 탭/다른 섹션에서 프레임 낭비·스파이크 감소
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => setIsActive(entry.isIntersecting),
+      { root: null, threshold: 0.05 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const wrapX = (v: number) => {
     let next = v;
@@ -127,15 +142,29 @@ function FilmStrip({ onSelect }: { onSelect: (index: number) => void }) {
   };
 
   useAnimationFrame((_, delta) => {
-    if (dragging.current) return;
-    x.set(wrapX(x.get() - AUTO_SPEED * delta));
+    if (!isActive || dragging.current) return;
+    const d = Math.min(delta, MAX_DELTA);
+    x.set(wrapX(x.get() - AUTO_SPEED * d));
   });
 
   return (
-    <div className="w-full overflow-hidden" style={{ touchAction: "pan-x" }}>
+    <div
+      ref={rootRef}
+      className="w-full overflow-hidden"
+      style={{
+        touchAction: "pan-x",
+        // 스크롤 영역 자체도 레이어로 승격
+        transform: "translateZ(0)",
+      }}
+    >
       <motion.div
         className="flex w-max cursor-grab active:cursor-grabbing"
-        style={{ x }}
+        style={{
+          x,
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
         drag="x"
         dragElastic={0}
         dragMomentum={false}
@@ -154,13 +183,15 @@ function FilmStrip({ onSelect }: { onSelect: (index: number) => void }) {
           }, 0);
         }}
       >
-        {frames.map((src, i) => (
+        {frames.map((item, i) => (
           <FilmFrame
-            key={`${src}-${i}`}
-            imgSrc={src}
+            key={`${item.src}-${i}`}
+            item={item}
+            // 첫 세트 + 양옆 일부는 즉시 로드 (스크롤 중 lazy 로딩 버벅임 방지)
+            eager={i < GALLERY_ITEMS.length + 4}
             onClick={() => {
               if (moved.current) return;
-              onSelect(i % IMAGES.length);
+              onSelect(i % GALLERY_ITEMS.length);
             }}
           />
         ))}
@@ -191,14 +222,13 @@ export default function Section03Gallery() {
       </FadeInUp>
       <div className="w-full mt-24 relative">
         <FilmStrip onSelect={openAt} />
-       
         <p className="text-right mr-5">사진을 클릭하거나, 드래그 해 보세요.</p>
       </div>
 
       <AnimatePresence>
         {openIndex !== null && (
           <GalleryLightbox
-            images={IMAGES}
+            images={GALLERY_ITEMS}
             index={openIndex}
             direction={direction}
             onClose={() => setOpenIndex(null)}
@@ -206,7 +236,6 @@ export default function Section03Gallery() {
           />
         )}
       </AnimatePresence>
-     
     </Section>
   );
 }

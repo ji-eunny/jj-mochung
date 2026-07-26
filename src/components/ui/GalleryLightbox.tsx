@@ -5,9 +5,10 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { assetPath } from "@/lib/asset";
+import { galleryPosition, type GalleryItem } from "@/lib/gallery";
 
 interface GalleryLightboxProps {
-  images: string[];
+  images: GalleryItem[];
   index: number;
   direction: number;
   onClose: () => void;
@@ -55,8 +56,6 @@ export default function GalleryLightbox({
       });
     };
 
-    // 팝업 직후: 레이아웃 안정화 뒤 즉시 중앙 정렬
-    // 이후 화살표/썸네일 이동: 스무스 스크롤
     const smooth = didCenterOnOpen.current;
     const id = requestAnimationFrame(() => {
       centerThumb(smooth);
@@ -120,12 +119,10 @@ export default function GalleryLightbox({
       transition={{ duration: 0.2 }}
       onClick={onClose}
     >
-      {/* 팝업 래퍼 — overflow visible 로 테이프가 잘리지 않음 */}
       <div
         className="relative z-10 w-[min(88vw,380px)]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 테이프 */}
         <img
           src={assetPath("/images/tape.png")}
           alt=""
@@ -133,14 +130,12 @@ export default function GalleryLightbox({
           className="pointer-events-none absolute left-1/2 top-0 z-30 w-24 -translate-x-1/2 -translate-y-[30%] rotate-[-4deg]"
         />
 
-        {/* 카드 본체 */}
         <div className="relative mt-4 flex flex-col overflow-hidden rounded-sm bg-[#f7f4ef] shadow-2xl">
-          {/* 메인 이미지 */}
           <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-200">
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.img
-                key={images[index]}
-                src={images[index]}
+                key={images[index].src}
+                src={images[index].src}
                 alt={`gallery ${index + 1}`}
                 custom={direction}
                 variants={slideVariants}
@@ -149,11 +144,11 @@ export default function GalleryLightbox({
                 exit="exit"
                 transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
                 className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: galleryPosition(images[index]) }}
                 draggable={false}
               />
             </AnimatePresence>
 
-            {/* 장수 — 사진 오른쪽 아래, X와 같은 스타일 */}
             <div
               aria-live="polite"
               className="absolute bottom-2 right-2 z-20 flex h-8 min-w-8 items-center justify-center rounded-full bg-black/55 px-2.5 text-[11px] font-medium tabular-nums tracking-wide text-white"
@@ -161,7 +156,6 @@ export default function GalleryLightbox({
               {index + 1} / {images.length}
             </div>
 
-            {/* X — 사진 맨 위 오른쪽 */}
             <button
               type="button"
               aria-label="닫기"
@@ -171,7 +165,6 @@ export default function GalleryLightbox({
               <X size={16} strokeWidth={2} />
             </button>
 
-            {/* 좌우 화살표 */}
             <button
               type="button"
               aria-label="이전 사진"
@@ -190,7 +183,6 @@ export default function GalleryLightbox({
             </button>
           </div>
 
-          {/* 썸네일 스트립 */}
           <div
             ref={thumbStripRef}
             className="flex items-center overflow-x-auto py-3 scrollbar-hide"
@@ -203,11 +195,11 @@ export default function GalleryLightbox({
               gap: THUMB_GAP,
             }}
           >
-            {images.map((src, i) => {
+            {images.map((item, i) => {
               const isActive = i === index;
               return (
                 <button
-                  key={src}
+                  key={item.src}
                   type="button"
                   ref={(el) => {
                     thumbRefs.current[i] = el;
@@ -223,14 +215,15 @@ export default function GalleryLightbox({
                     outlineOffset: 1,
                   }}
                 >
-                <img
-                  src={src}
-                  alt={`thumbnail ${i + 1}`}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                />
+                  <img
+                    src={item.src}
+                    alt={`thumbnail ${i + 1}`}
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition: galleryPosition(item) }}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                  />
                 </button>
               );
             })}
