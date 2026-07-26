@@ -4,22 +4,23 @@ import { useEffect, useState } from "react";
 
 /**
  * 모바일 청첩장 프레임
- * - iPhone 17 Pro(~402) · Pro Max(~440)까지: 화면 가로·세로 꽉 채움
- * - 그보다 큰 화면: 최대 440px 폭 + 양쪽 여백
- * - 한 섹션 = 한 화면 높이
- * - 카톡 인앱 브라우저: visualViewport 높이·offset 반영
+ * - 디자인 캔버스: 440×950 고정
+ * - contain scale 로 한 섹션이 화면에 딱 맞게 (잘림/과확대 없음)
+ * - 폰: 가로 여백 최소화, 큰 화면: 양쪽 여백 + 카드 느낌
+ * - 카톡 인앱: visualViewport 반영
  */
 
-/** 이 너비까지는 좌우 여백 없이 풀블리드 (iPhone 17 Pro Max CSS width) */
-const PHONE_MAX_W = 440;
+const BASE_W = 440;
+const BASE_H = 950;
 
 export default function MobileFrame({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [frameH, setFrameH] = useState(0);
+  const [scale, setScale] = useState(1);
   const [offsetTop, setOffsetTop] = useState(0);
+  const [viewportH, setViewportH] = useState(0);
   const [isPhone, setIsPhone] = useState(true);
 
   useEffect(() => {
@@ -28,9 +29,15 @@ export default function MobileFrame({
       const vv = window.visualViewport;
       const vh = Math.round(vv?.height ?? window.innerHeight);
       const top = Math.round(vv?.offsetTop ?? 0);
-      setIsPhone(vw <= PHONE_MAX_W);
-      setFrameH(vh);
+
+      // 440×950 전체가 보이도록 contain (가로·세로 중 더 작은 비율)
+      const fit = Math.min(vw / BASE_W, vh / BASE_H);
+      const phone = vw <= BASE_W;
+
+      setIsPhone(phone);
+      setScale(phone ? fit : Math.min(fit, 1));
       setOffsetTop(top);
+      setViewportH(vh);
     };
 
     compute();
@@ -44,33 +51,41 @@ export default function MobileFrame({
     };
   }, []);
 
-  const height = frameH > 0 ? frameH : undefined;
-
   return (
     <div
-      className={`fixed inset-x-0 flex justify-center overflow-hidden ${
+      className={`fixed inset-x-0 flex items-center justify-center overflow-hidden ${
         isPhone ? "bg-wedding-cream" : "bg-neutral-300"
       }`}
       style={{
         top: offsetTop,
-        height: height ?? "100dvh",
+        height: viewportH > 0 ? viewportH : "100dvh",
       }}
     >
       <div
-        data-scroll-root
-        className={`
-          relative h-full w-full overflow-y-auto overflow-x-hidden
-          overscroll-y-contain scrollbar-hide
-          ${isPhone ? "" : "max-w-[440px] shadow-2xl"}
-        `}
+        className="relative flex-shrink-0"
         style={{
-          ["--frame-h" as string]: height ? `${height}px` : "100dvh",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          WebkitOverflowScrolling: "touch",
+          width: BASE_W,
+          height: BASE_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "center center",
         }}
       >
-        {children}
+        <div
+          data-scroll-root
+          className={`
+            relative h-full w-full overflow-y-auto overflow-x-hidden
+            overscroll-y-contain scrollbar-hide
+            ${isPhone ? "" : "rounded-2xl shadow-2xl"}
+          `}
+          style={{
+            ["--frame-h" as string]: `${BASE_H}px`,
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

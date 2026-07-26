@@ -72,8 +72,8 @@ export default function Section({
       className={`
         relative flex-shrink-0
         w-full
-        h-[var(--frame-h,100dvh)]
-        min-h-[var(--frame-h,100dvh)]
+        h-[var(--frame-h,950px)]
+        min-h-[var(--frame-h,950px)]
         overflow-hidden
         ${bgClassName}
       `}
