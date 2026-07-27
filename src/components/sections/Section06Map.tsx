@@ -8,7 +8,7 @@ export default function Section06Map() {
   return (
     <Section bgImage="/images/back6.jpg">
       <FadeInUp delay={0.1}>
-        <div className="text-center text-3xl mt-14 font-bold">오시는 길</div>
+        <div className="text-center text-3xl mt-12 font-bold">오시는 길</div>
         <img
         src={assetPath("/images/star.png")}
         alt="star"
@@ -23,9 +23,9 @@ export default function Section06Map() {
           <div className="ml-12 flex gap-4 align-center">
             <div className="mt-1"><MapPinIcon size={30} color="#000000" /></div>
             <div className="flex flex-col gap-1">
-              <p className="font-semibold text-xl">까사그랑데</p>
-              <p>서울특별시 광진구 능동로 87</p>
-              <p>건대입구역 자이엘라 6층</p>
+              <p className="font-semibold text-2xl">까사그랑데</p>
+              <p className="text-xl">서울특별시 광진구 능동로 87</p>
+              <p className="text-xl">건대입구역 자이엘라 6층</p>
             </div>
           </div>
         </FadeInUp>
@@ -34,8 +34,8 @@ export default function Section06Map() {
           <div className="ml-12 flex gap-4 align-center mt-8">
             <div className="mt-1"><TrainIcon size={30} color="#000000" /></div>
             <div className="flex flex-col gap-1">
-              <p className="text-lg">지하철</p>
-              <p>2호선 <span className="text-sm">·</span> 7호선 건대입구역 5번출구 도보 1분</p>
+              <p className="text-xl">지하철</p>
+              <p className="text-lg">2호선 <span className="text-sm">·</span> 7호선 건대입구역 5번출구 도보 1분</p>
             </div>
           </div>
         </FadeInUp>
@@ -44,16 +44,16 @@ export default function Section06Map() {
           <div className="ml-12 flex gap-4 align-center mt-8">
             <div className="mt-1"><CarIcon size={30} color="#000000" /></div>
             <div className="flex flex-col gap-1">
-              <p className="text-lg">주차안내</p>
-              <p>건물 내 B2~B5 / 외부 주차장</p>
+              <p className="text-xl">주차안내</p>
+              <p className="text-lg">건물 내 B2~B5 / 외부 주차장</p>
             </div>
           </div>
         </FadeInUp>
 
         <FadeInUp delay={0.6}>
           <div className="mt-10 flex flex-col gap-1.5 text-center">
-            <p>기계식 주차로 인해 주차가 다소 불편할 수 있으니</p>
-            <p>가급적 대중교통 이용을 권장드립니다.</p>
+            <p className="text-xl">기계식 주차로 인해 주차가 다소 불편할 수 있으니</p>
+            <p className="text-xl font-bold">가급적 대중교통 이용을 권장드립니다.</p>
           </div>
         </FadeInUp>
       </div>

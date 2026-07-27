@@ -42,7 +42,7 @@ export default function Section08Closing() {
           controls.set({ y: "100%" });
           controls.start({
             y: "10%",
-            transition: { duration: 20, ease: "linear" },
+            transition: { duration: 10, ease: "linear" },
           });
         } else {
           // 섹션 벗어나면 초기 위치로 리셋

@@ -34,10 +34,10 @@ export default function Section05Calendar() {
       </FadeInUp>
 
       <FadeInUp delay={0.5}>
-        <div className="text-center mt-8 text-base text-black">
+        <div className="text-center mt-8 text-xl text-black">
           2027. 02. 13 AM 10:50
         </div>
-        <div className="text-center mt-2 text-base text-black">
+        <div className="text-center mt-2 text-xl text-black">
           까사그랑데
         </div>
       </FadeInUp>

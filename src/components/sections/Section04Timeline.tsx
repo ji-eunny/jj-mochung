@@ -18,7 +18,7 @@ function next(prevStart: number, prevText: string, gap = GAP) {
 
 // 날짜 & 텍스트 선언
 const date1 = "2018.05.26"; const t1 = "'우리'가 된 첫날";
-const date2 = "2022.11.22"; const t2a = "이제는 헤어질 시간을"; const t2b = "세지 않아도 되는 날";
+const date2 = "2020.11.22"; const t2a = "이제는 헤어질 시간을"; const t2b = "세지 않아도 되는 날";
 const date3 = "2024.02.16"; const t3 = "캠퍼스에서의 마지막 날";
 const date4 = "2024.02.01"; const t4 = "기차표가 가장 소중하던 장거리연애 시절";
 const date5 = "2026.01.20"; const t5 = "같은 집, 같은 일상";

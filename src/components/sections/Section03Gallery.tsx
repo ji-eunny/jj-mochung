@@ -222,7 +222,7 @@ export default function Section03Gallery() {
       </FadeInUp>
       <div className="w-full mt-24 relative">
         <FilmStrip onSelect={openAt} />
-        <p className="text-right mr-5">사진을 클릭하거나, 드래그 해 보세요.</p>
+        <p className="text-right mr-5 -mt-3">사진을 클릭하거나, 드래그 해 보세요.</p>
       </div>
 
       <AnimatePresence>

@@ -27,7 +27,7 @@ function AccountRow({ label, name, bank, account }: AccountItem) {
   };
 
   return (
-    <div className="flex items-center justify-between py-1.5 border-b border-black/10 last:border-none">
+    <div className="flex items-center justify-between py-1.5">
       <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-1.5">
           {label && <span className="font-semibold">{label}</span>}
