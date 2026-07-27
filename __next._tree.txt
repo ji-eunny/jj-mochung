@@ -1,0 +1,4 @@
+:HL["/_next/static/chunks/0ad0by6nggfkc.css","style"]
+:HL["/_next/static/media/UhBeeQUEENJ-s.p.246mrlo_wj67m.woff","font",{"crossOrigin":"","type":"font/woff"}]
+:HL["/images/star.png","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"QCzeZzdQ1tupPXBUVb8t-"}
